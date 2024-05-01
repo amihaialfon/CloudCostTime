@@ -1,4 +1,4 @@
-# to run this file with pytest write "pytest test_security_events_api.py"  
+# to run this file with pytest write "pytest test_security_events_api.py" and enter
 
 import pytest
 from api_client import SecurityEventsAPIClient

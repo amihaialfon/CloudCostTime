@@ -1,3 +1,4 @@
+# to run this file with pytest write "pytest test_security_events_api.py" and enter
 import requests
 from retrying import retry
 
