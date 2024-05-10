@@ -1,0 +1,30 @@
+Start Main:
+05-10-2024 15:44:58:: Machine a1 of type type 1 created and started.
+05-10-2024 15:44:58:: Machine b1 of type type 1 created and started.
+05-10-2024 15:45:58:: Machine c1 of type type 1 created and started.
+05-10-2024 15:45:58:: Machine d2 of type type 2 created and started.
+05-10-2024 15:45:58:: Machine a1 started.
+05-10-2024 15:45:58:: Machine b1 started.
+05-10-2024 15:45:58:: Machine c1 started.
+05-10-2024 15:45:58:: Machine d2 started.
+Total cost: $5.0
+05-10-2024 15:46:58:: Machine b1 stopped.
+Total cost: $4.0
+Cost of machine a1: $1.0
+Cost of machine d2: $2.0
+List of machines: ['a1', 'b1', 'c1', 'd2']
+Start Main: 
+05-10-2024 16:31:37:: Machine a1 of type type 1 created.
+05-10-2024 16:31:37:: Machine b1 of type type 1 created.
+05-10-2024 16:32:37:: Machine c1 of type type 1 created.
+05-10-2024 16:32:37:: Machine d2 of type type 2 created.
+05-10-2024 16:32:37:: Machine a1 started.
+05-10-2024 16:32:37:: Machine b1 started.
+05-10-2024 16:32:37:: Machine c1 started.
+05-10-2024 16:32:37:: Machine d2 started.
+Total cost: $5.0
+05-10-2024 16:33:37:: Machine b1 stopped.
+Total cost: $4.0
+Cost of machine a1: $1.0
+Cost of machine d2: $2.0
+List of machines: ['a1', 'b1', 'c1', 'd2']
