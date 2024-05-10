@@ -1,15 +1,27 @@
-# to run this file with pytest write "pytest test_security_events_api.py" and enter
-from api_client import SecurityEventsAPIClient
-import requests
+import sys
+from cost_tracker import CostTracker
+import time
 
-endpoint = "http://example.com/api"
-valid_user_id = "valid_user_id"
-invalid_user_id = "invalid_user_id"
+def main():
+    sys.stdout = open("log.txt", "a")
+    print(f"Start Main: ")
+    cost_tracker = CostTracker()
+    cost_tracker.create_machine("a1", "type 1")
+    cost_tracker.create_machine("b1", "type 1")
+    time.sleep(60)
+    cost_tracker.create_machine("c1", "type 1")
+    cost_tracker.create_machine("d2", "type 2")
+    cost_tracker.start_machine("a1")
+    cost_tracker.start_machine("b1")
+    cost_tracker.start_machine("c1")
+    cost_tracker.start_machine("d2")
+    time.sleep(60)
+    print(f"Total cost: ${cost_tracker.get_total_cost()}")
+    cost_tracker.stop_machine("b1")
+    print(f"Total cost: ${cost_tracker.get_total_cost()}")
+    print(f"Cost of machine a1: ${cost_tracker.get_machine_cost('a1')}")
+    print(f"Cost of machine d2: ${cost_tracker.get_machine_cost('d2')}")
+    print(f"List of machines: {cost_tracker.get_machines_names()}")
 
 if __name__ == "__main__":
-    client = SecurityEventsAPIClient(endpoint)
-    try:
-        result = client.get_security_events(valid_user_id)
-        print("API call successful:", result)
-    except requests.exceptions.HTTPError as err:
-        print("API call failed:", err)
+    main()
