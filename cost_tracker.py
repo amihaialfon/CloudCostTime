@@ -1,72 +1,81 @@
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 from machine import Machine
 
-
 class CostTracker:
-    type1 = 'type 1'
-    type2 = 'type 2'
+    TYPE1_COST_PER_MINUTE = 1
+    TYPE2_COST_PER_MINUTE = 2
+    DATETIME_FORMAT = "%m-%d-%Y %H:%M:%S.%f"
 
     def __init__(self):
         self.machines = {}
 
     def create_machine(self, name, machine_type):
-        self.machines[name] = Machine(name, machine_type)
-        self.machines[name].start()
-        current_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
-        print(f"{current_time}:: Machine {name} of type {machine_type} created.")
+        try:
+            if name in self.machines:
+                raise ValueError(f"Machine {name} already exists.")
+            self.machines[name] = Machine(name, machine_type)
+            self.machines[name].start()
+            current_time = datetime.now().strftime(self.DATETIME_FORMAT)[:-3]
+            print(f"{current_time}:: Machine {name} of type {machine_type} created.")
+        except Exception as e:
+            print(f"Error creating machine {name}: {e}")
 
     def delete_machine(self, name):
-        if name in self.machines:
+        try:
+            if name not in self.machines:
+                raise ValueError(f"Machine {name} does not exist.")
             self.machines.pop(name)
-            current_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+            current_time = datetime.now().strftime(self.DATETIME_FORMAT)[:-3]
             print(f"{current_time}:: Machine {name} deleted.")
-        else:
-            current_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
-            print(f"{current_time}:: Machine {name} does not exist.")
+        except Exception as e:
+            print(f"Error deleting machine {name}: {e}")
 
     def start_machine(self, name):
-        if name in self.machines:
+        try:
+            if name not in self.machines:
+                raise ValueError(f"Machine {name} does not exist.")
             self.machines[name].start()
-            current_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+            current_time = datetime.now().strftime(self.DATETIME_FORMAT)[:-3]
             print(f"{current_time}:: Machine {name} started.")
-        else:
-            current_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
-            print(f"{current_time}:: Machine {name} does not exist.")
+        except Exception as e:
+            print(f"Error starting machine {name}: {e}")
 
     def stop_machine(self, name):
-        if name in self.machines:
+        try:
+            if name not in self.machines:
+                raise ValueError(f"Machine {name} does not exist.")
             self.machines[name].stop()
-            current_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+            current_time = datetime.now().strftime(self.DATETIME_FORMAT)[:-3]
             print(f"{current_time}:: Machine {name} stopped.")
-        else:
-            current_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
-            print(f"{current_time}:: Machine {name} does not exist.")
+        except Exception as e:
+            print(f"Error stopping machine {name}: {e}")
 
     def get_machine_cost(self, name):
-        if name in self.machines:
+        try:
+            if name not in self.machines:
+                raise ValueError(f"Machine {name} does not exist.")
             machine = self.machines[name]
-            if machine.start_time:
-                uptime_minutes = machine.get_uptime().total_seconds() // 60
-                if machine.machine_type == self.type1:
-                    return uptime_minutes * 1
-                elif machine.machine_type == self.type2:
-                    return uptime_minutes * 2
-            else:
-                return 0
-        else:
-            current_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
-            print(f"{current_time}:: Try to get cost for machine {name} and it does not exist.")
+            uptime_minutes = machine.get_uptime().total_seconds() // 60
+            if machine.machine_type == 'type 1':
+                return uptime_minutes * self.TYPE1_COST_PER_MINUTE
+            elif machine.machine_type == 'type 2':
+                return uptime_minutes * self.TYPE2_COST_PER_MINUTE
+            return 0
+        except Exception as e:
+            print(f"Error getting cost for machine {name}: {e}")
             return None
 
     def get_total_cost(self):
         total_cost = 0
         for machine in self.machines.values():
-            if machine.start_time:
+            try:
                 uptime_minutes = machine.get_uptime().total_seconds() // 60
-                if machine.machine_type == self.type1:
-                    total_cost += uptime_minutes * 1
-                elif machine.machine_type == self.type2:
-                    total_cost += uptime_minutes * 2
+                if machine.machine_type == 'type 1':
+                    total_cost += uptime_minutes * self.TYPE1_COST_PER_MINUTE
+                elif machine.machine_type == 'type 2':
+                    total_cost += uptime_minutes * self.TYPE2_COST_PER_MINUTE
+            except Exception as e:
+                print(f"Error calculating cost for machine {machine.name}: {e}")
         return total_cost
 
     def get_machines_names(self):
